@@ -1,0 +1,70 @@
+SELECT EXTRACT(month FROM sysdate) "Month"   FROM dual;
+SELECT EXTRACT(year FROM sysdate) "Year" FROM dual;
+
+select owner,INDEX_NAME,last_analyzed, EXTRACT(year FROM last_analyzed) "AA" , global_stats from dba_indexes where owner ='SAPCCADM03' and INDEX_NAME not like 'SYS%' order by AA desc;
+
+sed '/SYS_/d' ./nonpart.sql >> newnonpart.sql  (TO REMOVE THE SYS_ indexes)
+
+REMOVE BLANK LINES
+sed -e 's/^[ \t]*//' -e 's/[ \t]*$//' /tmp/newnonpart.sql >> /tmp/nonpart.sql
+
+SPLIT PARTITIONED FILES
+split -l 2000 partitioned_index.sql partitioned_index.sql.
+
+SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM dual;
++++++++++++++
+INDEX
++++++++++++++
+alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
+set lines 1000
+col index_owner form a10
+col table_owner form a10
+col owner form a10
+select owner,INDEX_NAME,last_analyzed, global_stats from dba_indexes where owner ='SAPCCADM03' and INDEX_NAME not like 'SYS%' order by owner,index_name;
+
+
+alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
+set lines 1000
+col index_owner form a10
+col table_owner form a10
+col owner form a10
+select owner,INDEX_NAME,last_analyzed, EXTRACT(year FROM last_analyzed) "AA" , global_stats from dba_indexes where owner ='SAPCCADM03' and INDEX_NAME not like 'SYS%' order by AA desc;
+
+
+select owner,INDEX_NAME,last_analyzed, global_stats from dba_indexes where owner ='SAPCCADM03' order by owner,index_name;
+
+
++++++++++++++
+TABLE
++++++++++++++
+set pages 200
+
+col index_owner form a10
+col table_owner form a10
+col owner form a10
+
+spool /tmp/checkstat.lst
+
+alter session set nls_date_format='dd/mm/yyyy hh24:mi:ss';
+select owner,INDEX_NAME,last_analyzed, global_stats from dba_indexes where owner ='SAPCCADM03' and INDEX_NAME not like 'SYS%' order by owner,index_name;
+select owner,table_name,last_analyzed, global_stats from dba_tables where owner not in ('SYS','SYSTEM') order by owner,table_name;
+
+select table_owner, table_name, partition_name, last_analyzed, global_stats from dba_tab_partitions where table_owner not in ('SYS','SYSTEM') order by table_owner,table_name, partition_name;
+
+PROMPT Regular Indexes
+
+select owner,INDEX_NAME,last_analyzed, global_stats from dba_indexes where owner ='SAPCCADM' and INDEX_NAME not like 'SYS%' order by owner,index_name;
+
+select owner, index_name, last_analyzed, global_stats from dba_indexes where owner in ('SAPCCADM') and partitioned='NO' order by owner, index_name;
+
+
+
+select index_owner, index_name, partition_name, last_analyzed, global_stats from dba_ind_partitions where index_owner in ('SAPCCADM') order by index_owner, index_name, partition_name;
+
+spool off
+
+
+
+
+
+select partition_name,tablespace_name from user_ind_partitions where index_name='PK_COUNTER_SNAPSHOT'; 

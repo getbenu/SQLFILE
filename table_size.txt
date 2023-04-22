@@ -1,0 +1,9 @@
+select owner,segment_name,bytes/1024/1024 "TABLE_SIZE_MB" from dba_segments where owner=upper('&USERNAME') 
+--and segment_name='TABLE_NAME' 
+order by 3 desc;
+
+
+select segment_name,sum(bytes/1024/1024/1024) GB from dba_segments where owner=upper('SAPCCADM') and segment_name in ('OBJECT_CHANGE_LOG','USER_OPERATION','OBJECT_SNAPSHOT')  group by segment_name;
+
+
+select segment_name,sum(bytes/1024/1024/1024) GB from dba_segments where owner=upper('COREDBUSER42')  group by segment_name;

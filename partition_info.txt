@@ -1,0 +1,17 @@
+select table_name, partition_name from all_tab_partitions where table_name = 'SUMT_MARO' and table_owner = 'SAPCCADM';
+
+select table_name, partition_name from all_tab_partitions where table_name in ('KPIS5MIN','KPISDAY','KPISHOUR','CGF_OUTPUT_FILE_SUMMARY','UNRATED_VOICE_USAGE') and table_owner = 'MZADMIN';
+
+('KPIS5MIN','KPISDAY','KPISHOUR','CGF_OUTPUT_FILE_SUMMARY','UNRATED_VOICE_USAGE')
+
+select INDEX_NAME,PARTITION_NAME from all_ind_partitions where INDEX_NAME='&INDEX_NAME' and INDEX_OWNER=upper('&OWNER');
+
+
+select owner,object_name,subobject_name,to_char(created,'DD.MM.YYYY HH24:MI:SS') from dba_objects where owner='MZADMIN' and object_name='KPISHOUR' and object_type='TABLE PARTITION' and trunc(created) = trunc(sysdate);
+
+
+
+Fusion 11g 443
+SSL certificate renewal
+Disable SSL certificate
+How to change default pages

@@ -1,0 +1,25 @@
+SELECT owner,object_name,subobject_name,object_type FROM all_objects WHERE status='INVALID'
+
+select owner, index_name from dba_indexes where status='UNUSABLE'  ;
+
+select owner, index_name from dba_indexes where status='UNUSABLE' owner='REPORTUSER' ;
+
+ "REPORTUSER"."IDX_REP_SMSX_REQ_ID"
+
+DPOWNERA.DP_USER_V2
+SELECT owner,object_name,subobject_name,object_type FROM all_objects WHERE status='INVALID' and owner='DPOWNERA' and object_name='DP_USER_CPMOD';
+
+select OWNER,TRIGGER_NAME , STATUS from dba_triggers where OWNER='DPOWNERA' and TABLE_NAME='DP_USER_V2';
+
+
+select ‘alter package ‘||owner||’.’||object_name||’ compile;’ from dba_objects where object_type=’PACKAGE’ and status=’INVALID’;
+
+select ‘alter package ‘||owner||’.’||object_name||’ compile body;’ from dba_objects where object_type=’PACKAGE BODY’ and status=’INVALID’;
+
+select ‘alter synonym ‘||owner||’.’||object_name||’ compile;’ from dba_objects where object_type=’SYNONYM’ and status=’INVALID’;
+
+select ‘alter trigger ‘||owner||’.’||object_name||’ compile;’ from dba_objects where object_type=’TRIGGER’ and status=’INVALID’;
+
+select ‘alter view ‘||owner||’.’||object_name||’ compile;’ from dba_objects where object_type=’VIEW’ and status=’INVALID’;
+
+ 
